@@ -1,8 +1,7 @@
 package Visitor::LeftToRight;
 
 use Moose;
-use Data::Visitor;
-# extends 'Data::Visiotr';
+extends 'Visitor';
 
 __PACKAGE__->meta->make_immutable;
 
