@@ -1,7 +1,10 @@
 package MyCmd;
 
 use Moose;
+use YAML();
+
 with 'MooseX::Getopt';
+with 'MooseX::ConfigFromFile';
 
 has 'username' => (
   is       => 'rw',
@@ -26,6 +29,16 @@ __PACKAGE__->meta->make_immutable;
 no Moose;
 use Data::Dumper::Names;
 
+sub get_config_from_file {
+  my ( $class, $file ) = @_;
+
+  my $config = YAML::LoadFile($file);
+  warn Dumper $config;
+  return $config;
+
+}
+
+
 sub run {
   my $self = shift;
 
@@ -39,6 +52,7 @@ sub run {
 
 }
 
+1;
 
 package main;
 use Data::Dumper::Names;
