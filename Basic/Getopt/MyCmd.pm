@@ -5,6 +5,7 @@ use YAML();
 
 with 'MooseX::Getopt';
 with 'MooseX::ConfigFromFile';
+with 'MooseX::Daemonize';
 
 has 'username' => (
   is       => 'rw',
@@ -24,6 +25,13 @@ has 'verbose' => (
   default => 0,
 );
 
+after 'start' => sub {
+  my $self = shift;
+  return if !( $self->is_daemon );
+
+  $self->run;
+};
+
 __PACKAGE__->meta->make_immutable;
 
 no Moose;
@@ -37,7 +45,6 @@ sub get_config_from_file {
   return $config;
 
 }
-
 
 sub run {
   my $self = shift;
@@ -54,10 +61,10 @@ sub run {
 
 1;
 
-package main;
-use Data::Dumper::Names;
+# package main;
+# use Data::Dumper::Names;
 
-my $cmd = MyCmd->new_with_options();
-$cmd->run;
+# my $cmd = MyCmd->new_with_options();
+# $cmd->run;
 
 1;
